@@ -1,13 +1,13 @@
 import React from "react";
-import { Box, Button, Toolbar, Typography } from "@mui/material";
+import { Avatar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { Link } from "react-router-dom";
 
 export const StyledNavBar = styled(Toolbar)({
   background: "#022B3A",
-  width: "100vw",
+  width: "auto",
   height: "5vh",
   position: "relative",
+  display: "flex",
 });
 
 export const StyledNavbarTitle = styled(Typography)({
@@ -18,8 +18,7 @@ export const StyledNavbarTitle = styled(Typography)({
 });
 
 export const StyledNavbarBox = styled(Box)({
-  position: "absolute",
-  marginLeft: "50%",
+  position: "relative",
 });
 
 export const StyledNavbarButton = styled(Button)({
@@ -30,5 +29,26 @@ export const StyledNavbarButton = styled(Button)({
   "&:hover": {
     color: "#141b24",
     background: "#F1F1F1",
+  },
+});
+
+export const StyledAvatarBox = styled(Avatar)({
+  display: "flex",
+  position: "absolute",
+  right: "5vw",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
+export const StyledLoginButton = styled(Button)({
+  background: "#E1E5F2",
+  display: "flex",
+  position: "absolute",
+  right: "5vw",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "#022B3A",
+  "&:hover": {
+    background: "#c3c4c7",
   },
 });
