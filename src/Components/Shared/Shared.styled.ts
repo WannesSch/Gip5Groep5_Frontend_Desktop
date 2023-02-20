@@ -14,7 +14,7 @@ export const StyledFontAwesomeIcon = styled(FontAwesomeIcon)<FontColor>(
   ({ $color }) => ({
     color: $color ?? "#152745",
     fontSize: "1.2rem",
-    marginLeft: "1rem",
+    width: "2rem",
     cursor: "pointer",
   })
 );

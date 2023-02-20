@@ -23,6 +23,7 @@ const rows = [
 ];
 
 function InventoryComponent() {
+<<<<<<< HEAD
   return (
     <StyledTableBox >
       <DataGrid
@@ -38,6 +39,9 @@ function InventoryComponent() {
       />
     </StyledTableBox>
   );
+=======
+  return <></>;
+>>>>>>> 923ac9d7d411080dc1a7d1259aaccf6de6ffae22
 }
 
 export default InventoryComponent;
