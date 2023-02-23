@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { Box, Button, TextField, textFieldClasses } from "@mui/material";
+import { Box, Button, Select, TextField, textFieldClasses } from "@mui/material";
 import { StyledTableBox } from "./Inventory.styled";
 import { TableRow } from "../../Models/Props/TableRow";
 
@@ -30,6 +30,9 @@ const createRow = () => {
 };
 
 
+
+let SelectedRows:string[] = []
+
 function InventoryComponent() {
 
    const [rows, setRows] = useState<TableRow[]>(tableRows);
@@ -39,6 +42,24 @@ const handleAddRow = () => {
   };
 
   
+const handleDeleteRow = () => {
+  SelectedRows.forEach((SelectedRow) => {
+    setRows((rows) => {
+     return [ ...rows.slice(0, SelectedRow)], 
+ 
+      
+    });
+
+  })
+    
+  };
+
+ const handleSelectedRows = (ids: string ) =>{
+
+  console.log(ids)
+  SelectedRows = ids.split(",")
+
+ }
 
   if(!rows) return<></>;
   return (
@@ -50,10 +71,12 @@ const handleAddRow = () => {
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
-               
+        onSelectionModelChange={(ids) => handleSelectedRows(ids.toString())}      
       />
     <Box>
       <Button onClick={handleAddRow}>Add</Button>
+      <Button>Edit</Button>
+      <Button onClick={handleDeleteRow}>Delete</Button>
   </Box>
     </StyledTableBox>
     
