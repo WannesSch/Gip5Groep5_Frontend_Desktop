@@ -1,87 +1,149 @@
-import React, { useState } from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { Box, Button, Select, TextField, textFieldClasses } from "@mui/material";
+import React, { SetStateAction, useState } from "react";
+import {
+  DataGrid,
+  GridCellEditCommitParams,
+  GridColDef,
+  GridRowEntry,
+  GridRowId,
+  GridSelectionModel,
+  GridValueGetterParams,
+} from "@mui/x-data-grid";
+import {
+  Box,
+  Button,
+  Select,
+  TextField,
+  textFieldClasses,
+} from "@mui/material";
 import { StyledTableBox } from "./Inventory.styled";
 import { TableRow } from "../../Models/Props/TableRow";
-
+import { GetRowID } from "../../Utils";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70, editable:true },
-  { field: "name", headerName: "Naam", width: 130, editable:true },
-  { field: "type", headerName: "Type", width: 130, editable:true },
-  { field: "extraInformation", headerName: "Extra Informatie", width: 130, editable:true },
-  { field: "modelNumber", headerName: "Model Nummer", width: 140, editable:true },
-  { field: "price", headerName: "Prijs", width: 130, editable:true },
-  { field: "inStock", headerName: "Hoeveelheid", width: 130, editable:true },
-
-
- 
+  { field: "id", headerName: "ID", width: 70, editable: false },
+  { field: "name", headerName: "Naam", width: 130, editable: true },
+  { field: "type", headerName: "Type", width: 130, editable: true },
+  {
+    field: "extraInformation",
+    headerName: "Extra Informatie",
+    width: 130,
+    editable: true,
+  },
+  {
+    field: "modelNumber",
+    headerName: "Model Nummer",
+    width: 140,
+    editable: true,
+  },
+  { field: "price", headerName: "Prijs", width: 130, editable: true },
+  { field: "inStock", headerName: "Hoeveelheid", width: 130, editable: true },
 ];
 
-const tableRows:TableRow[] = [
-  { id: 0, name: "", type: "", extraInformation: "", modelNumber:"", price: 0, inStock: 0 },
+const tableRows: TableRow[] = [
+  {
+    id: 0,
+    name: "Test0",
+    type: "Test0",
+    extraInformation: "Test0",
+    modelNumber: "Test0",
+    price: 400,
+    inStock: 5,
+  },
+  {
+    id: 1,
+    name: "Test1",
+    type: "Test1",
+    extraInformation: "Test1",
+    modelNumber: "Test1",
+    price: 400,
+    inStock: 5,
+  },
 
+  {
+    id: 2,
+    name: "Test2",
+    type: "Test2",
+    extraInformation: "Test2",
+    modelNumber: "Test2",
+    price: 400,
+    inStock: 5,
+  },
 ];
-
-let idCounter = 0;
-const createRow = () => {
-  idCounter += 1;
-  return { id: idCounter, name: "", type: "", extraInformation: "", modelNumber:"", price: 0, inStock: 0 };
-};
-
-
-
-let SelectedRows:string[] = []
 
 function InventoryComponent() {
+  const [rows, setRows] = useState<TableRow[]>(tableRows);
+  const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
 
-   const [rows, setRows] = useState<TableRow[]>(tableRows);
-   
-const handleAddRow = () => {
+  const createRow = () => {
+    return {
+      id: GetRowID(rows),
+      name: "",
+      type: "",
+      extraInformation: "",
+      modelNumber: "",
+      price: 0,
+      inStock: 0,
+    };
+  };
+
+  const handleAddRow = () => {
     setRows((rows) => [...rows, createRow()]);
   };
 
-  
-const handleDeleteRow = () => {
-  SelectedRows.forEach((SelectedRow) => {
-    setRows((rows) => {
-     return [ ...rows.slice(0, SelectedRow)], 
- 
-      
-    });
-
-  })
-    
+  const handleDeleteRow = () => {
+    const selectedIDs = new Set(selectionModel);
+    setRows((r) => r.filter((x) => !selectedIDs.has(x.id)));
   };
 
- const handleSelectedRows = (ids: string ) =>{
+  const handleRowEditCommit = (editableRow: GridCellEditCommitParams) => {
+    let row = rows.filter((r) => r.id == editableRow.id)[0];
 
-  console.log(ids)
-  SelectedRows = ids.split(",")
+    switch (editableRow.field) {
+      case "name":
+        row.name = editableRow.value;
+        break;
+      case "type":
+        row.type = editableRow.value;
+        break;
+      case "extraInformation":
+        row.extraInformation = editableRow.value;
+        break;
+      case "modelNumber":
+        row.modelNumber = editableRow.value;
+        break;
+      case "price":
+        row.price = editableRow.value;
+        break;
+      case "inStock":
+        row.inStock = editableRow.value;
+        break;
+    }
+    console.log(row); //-> naar server voor op te slagen
+  };
 
- }
-
-  if(!rows) return<></>;
+  if (!rows) return <></>;
   return (
-    <StyledTableBox >
+    <StyledTableBox>
       <DataGrid
         rows={rows}
         columns={columns}
-        
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
-        onSelectionModelChange={(ids) => handleSelectedRows(ids.toString())}      
+        onSelectionModelChange={(ids) => {
+          setSelectionModel(ids);
+        }}
+        onCellEditCommit={(row) => {
+          handleRowEditCommit(row);
+        }}
       />
-    <Box>
-      <Button onClick={handleAddRow}>Add</Button>
-      <Button>Edit</Button>
-      <Button onClick={handleDeleteRow}>Delete</Button>
-  </Box>
+      <Box>
+        <Button onClick={handleAddRow}>Add</Button>
+        <Button>Edit</Button>
+        <Button onClick={handleDeleteRow}>Delete</Button>
+      </Box>
     </StyledTableBox>
-    
   );
-
 }
 
 export default InventoryComponent;

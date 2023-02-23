@@ -51,4 +51,4 @@ export const StyledLoginButton = styled(Button)({
   "&:hover": {
     background: "#c3c4c7",
   },
-});
+}); 

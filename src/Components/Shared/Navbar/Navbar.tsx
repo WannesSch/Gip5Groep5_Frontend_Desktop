@@ -37,8 +37,6 @@ const pages = [
   },
 ];
 
-const settings = ["Logout"];
-
 function NavBarComponent() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
