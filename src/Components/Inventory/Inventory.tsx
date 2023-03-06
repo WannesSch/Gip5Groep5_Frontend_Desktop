@@ -15,7 +15,7 @@ import {
   TextField,
   textFieldClasses,
 } from "@mui/material";
-import { StyledButton,  StyledTableBox } from "./Inventory.styled";
+import {   StyledTableBox } from "./Inventory.styled";
 import { Item } from "../../Models/Item";
 import { GetRowID } from "../../Utils";
 import { StyledFontAwesomeIcon } from "../Shared/Shared.styled";
@@ -141,7 +141,7 @@ function InventoryComponent() {
         }}
       />
       <Box>
-        <StyledButton onClick={handleAddRow}><StyledFontAwesomeIcon $color={"green"}icon={faPlus}/></StyledButton>
+        <Button onClick={handleAddRow}><StyledFontAwesomeIcon $color={"green"}icon={faPlus}/></Button>
        
         <Button onClick={handleDeleteRow}><StyledFontAwesomeIcon $color={"red"} icon={faTrash}/></Button>
       </Box>
