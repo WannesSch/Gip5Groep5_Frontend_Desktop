@@ -139,11 +139,11 @@ function InventoryComponent() {
       />
       <Box>
         <Button onClick={handleAddRow}>Add</Button>
-        <Button>Edit</Button>
+       
         <Button onClick={handleDeleteRow}>Delete</Button>
       </Box>
     </StyledTableBox>
-  );
+  )
 }
 
 export default InventoryComponent;
