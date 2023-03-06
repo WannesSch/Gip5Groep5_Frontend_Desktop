@@ -37,22 +37,13 @@ const pages = [
   },
 ];
 
+const user = "Wannes";
+
 function NavBarComponent() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-  const onAuthButtonClick = () => {
-    setIsLoggedIn(!isLoggedIn);
-  };
-
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const HandleLogout = () => {
+    setIsLoggedIn(false);
   };
 
   return (
@@ -71,32 +62,16 @@ function NavBarComponent() {
       </StyledNavbarBox>
       {isLoggedIn ? (
         <StyledAvatarBox>
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Tooltip title="Logout">
+            <IconButton onClick={HandleLogout}>
+              {user[0].toUpperCase()}
             </IconButton>
           </Tooltip>
-          <Menu
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            <MenuItem key={"logout"} onClick={onAuthButtonClick}>
-              <Typography>Logout</Typography>
-            </MenuItem>
-          </Menu>
         </StyledAvatarBox>
       ) : (
-        <StyledLoginButton onClick={onAuthButtonClick}>Login</StyledLoginButton>
+        <Link to="/login">
+          <StyledLoginButton>Login</StyledLoginButton>
+        </Link>
       )}
     </StyledNavBar>
   );

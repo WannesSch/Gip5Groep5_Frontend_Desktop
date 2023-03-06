@@ -16,7 +16,7 @@ import {
   textFieldClasses,
 } from "@mui/material";
 import { StyledTableBox } from "./Inventory.styled";
-import { TableRow } from "../../Models/Props/TableRow";
+import { Item } from "../../Models/Item";
 import { GetRowID } from "../../Utils";
 
 const columns: GridColDef[] = [
@@ -39,7 +39,7 @@ const columns: GridColDef[] = [
   { field: "inStock", headerName: "Hoeveelheid", width: 130, editable: true },
 ];
 
-const tableRows: TableRow[] = [
+const items: Item[] = [
   {
     id: 0,
     name: "Test0",
@@ -71,7 +71,7 @@ const tableRows: TableRow[] = [
 ];
 
 function InventoryComponent() {
-  const [rows, setRows] = useState<TableRow[]>(tableRows);
+  const [rows, setRows] = useState<Item[]>(items);
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
 
   const createRow = () => {
