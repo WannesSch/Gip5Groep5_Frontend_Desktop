@@ -14,6 +14,7 @@ export const StyledAnaliticsBox = styled(Box)({
 
 const StyledGraphBox = styled(Box)({
   boxShadow: "1px 2px 9px #a3a3a3",
+  borderRadius: "5px",
 });
 
 export const StyledStockGraphBox = styled(StyledGraphBox)({

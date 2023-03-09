@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { StyledFontAwesomeIcon } from "../Shared.styled";
+import { StyledFontAwesomeIcon, StyledLink } from "../Shared.styled";
 import {
   StyledAvatarBox,
   StyledLoginButton,
@@ -69,9 +69,9 @@ function NavBarComponent() {
           </Tooltip>
         </StyledAvatarBox>
       ) : (
-        <Link to="/login">
+        <StyledLink to="http://localhost:8080/api/v1/user/1">
           <StyledLoginButton>Login</StyledLoginButton>
-        </Link>
+        </StyledLink>
       )}
     </StyledNavBar>
   );

@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AnaliticsComponent from "./Components/Analitics/Analitics";
 import HomeComponent from "./Components/Home/Home";
 import InventoryComponent from "./Components/Inventory/Inventory";
+import LoginComponent from "./Components/Login/Login";
+import RegisterComponent from "./Components/Register/Register";
 import FooterComponent from "./Components/Shared/Footer/Footer";
 import NavBarComponent from "./Components/Shared/Navbar/Navbar";
 
@@ -19,6 +21,8 @@ root.render(
         <Route path="/" element={<HomeComponent />} />
         <Route path="/inventory" element={<InventoryComponent />} />
         <Route path="/analitics" element={<AnaliticsComponent />} />
+        <Route path="/login" element={<LoginComponent />} />
+        <Route path="/register" element={<RegisterComponent />} />
       </Routes>
 
       <FooterComponent />

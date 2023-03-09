@@ -1,5 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { styled } from "@mui/material";
+import { styled, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import { Link } from "react-router-dom";
 
 type FontColor = { $color?: string };
 
@@ -18,3 +20,27 @@ export const StyledFontAwesomeIcon = styled(FontAwesomeIcon)<FontColor>(
     cursor: "pointer",
   })
 );
+
+export const StyledLink = styled(Link)({
+  margin: 0,
+  height: "50%",
+});
+
+export const StyledAuthBox = styled(Box)({
+  width: "30vw",
+  boxShadow: "1px 2px 9px #a3a3a3",
+  borderRadius: "5px",
+  margin: "auto",
+  marginBlock: "5vh",
+  display: "flex",
+  flexDirection: "column",
+});
+
+export const StyledTitle = styled(Typography)({
+  color: "#022B3A",
+  width: "100%",
+  textAlign: "center",
+  fontSize: "1.5rem",
+  paddingTop: "1vh",
+  position: "relative",
+});
