@@ -4,7 +4,7 @@ import { Item } from "../Models/Item";
 import { getAllItems } from "../Repositories/ItemRepository";
 
 export interface ItemStore {
-  accounts?: Item[];
+  items?: Item[];
   fetchAccounts: () => void;
 }
 

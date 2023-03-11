@@ -1,14 +1,8 @@
-import { faUser, faUserGroup } from "@fortawesome/free-solid-svg-icons";
-import {
-  Avatar,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import React, { useState } from "react";
+import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { IconButton, Tooltip } from "@mui/material";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useProfile } from "../../../Hooks/useProfile";
 import { StyledFontAwesomeIcon, StyledLink } from "../Shared.styled";
 import {
   StyledAvatarBox,
@@ -37,13 +31,11 @@ const pages = [
   },
 ];
 
-const user = "Wannes";
-
 function NavBarComponent() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { logout, user } = useProfile();
 
   const HandleLogout = () => {
-    setIsLoggedIn(false);
+    logout();
   };
 
   return (
@@ -60,16 +52,16 @@ function NavBarComponent() {
           </Link>
         ))}
       </StyledNavbarBox>
-      {isLoggedIn ? (
+      {user ? (
         <StyledAvatarBox>
           <Tooltip title="Logout">
             <IconButton onClick={HandleLogout}>
-              {user[0].toUpperCase()}
+              {user.firstname[0].toUpperCase()}
             </IconButton>
           </Tooltip>
         </StyledAvatarBox>
       ) : (
-        <StyledLink to="http://localhost:8080/api/v1/user/1">
+        <StyledLink to="/login">
           <StyledLoginButton>Login</StyledLoginButton>
         </StyledLink>
       )}
