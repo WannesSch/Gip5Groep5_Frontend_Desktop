@@ -18,6 +18,8 @@ import {
 import { StyledTableBox } from "./Inventory.styled";
 import { Item } from "../../Models/Item";
 import { GetRowID } from "../../Utils";
+import { StyledFontAwesomeIcon } from "../Shared/Shared.styled";
+import { faCross, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 70, editable: false },
@@ -138,9 +140,13 @@ function InventoryComponent() {
         }}
       />
       <Box>
-        <Button onClick={handleAddRow}>Add</Button>
+        <Button onClick={handleAddRow}>
+          <StyledFontAwesomeIcon $color={"green"} icon={faPlus} />
+        </Button>
 
-        <Button onClick={handleDeleteRow}>Delete</Button>
+        <Button onClick={handleDeleteRow}>
+          <StyledFontAwesomeIcon $color={"red"} icon={faTrash} />
+        </Button>
       </Box>
     </StyledTableBox>
   );
