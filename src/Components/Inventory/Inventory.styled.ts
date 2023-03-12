@@ -42,5 +42,5 @@ export const StyledPercentageText = styled(Typography)({
   position: "relative",
   fontWeight: "bold",
   fontFamily: "sans-serif",
-  color: "#383838",
+  color: "#424242",
 });

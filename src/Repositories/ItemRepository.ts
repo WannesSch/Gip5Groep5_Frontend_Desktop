@@ -42,3 +42,40 @@ export const createItem = async (authentication: AuthProps, item: Item) => {
   );
   console.log(status);
 };
+
+export const updateItem = async (authentication: AuthProps, item: Item) => {
+  if (!authentication) return;
+
+  const { status } = await axios.put<Item>(
+    `${api_url}/api/v1/item/update/${item.id}`,
+    item,
+    {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      auth: {
+        username: authentication.username,
+        password: authentication.password,
+      },
+    }
+  );
+  console.log(status);
+};
+
+export const deleteItem = async (authentication: AuthProps, itemId: number) => {
+  if (!authentication) return;
+
+  const { status } = await axios.delete<Item>(
+    `${api_url}/api/v1/item/delete/${itemId}`,
+    {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      auth: {
+        username: authentication.username,
+        password: authentication.password,
+      },
+    }
+  );
+  console.log(status);
+};

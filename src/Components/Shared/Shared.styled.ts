@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 type FontColor = { $color?: string };
 
+type MessageProps = { $background?: string };
 //Colors
 //#022B3A Accent color
 //#1F7A8C Text color
@@ -44,3 +45,18 @@ export const StyledTitle = styled(Typography)({
   paddingTop: "1vh",
   position: "relative",
 });
+
+export const StyledMessage = styled(Box)<MessageProps>(({ $background }) => ({
+  background: $background ?? "#ab2929",
+  color: "#d9d9d9",
+  fontSize: "1.5rem",
+  width: "min-content",
+  height: "5vh",
+  margin: "auto",
+  minWidth: "30vw",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  marginTop: "2vh",
+  boxShadow: "1px 2px 9px #a3a3a3",
+}));

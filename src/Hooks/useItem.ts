@@ -1,12 +1,19 @@
 import { create } from "zustand";
 import { AuthProps } from "../Models/AuthProps";
 import { Item } from "../Models/Item";
-import { createItem, getAllItems } from "../Repositories/ItemRepository";
+import {
+  createItem,
+  deleteItem,
+  getAllItems,
+  updateItem,
+} from "../Repositories/ItemRepository";
 
 export interface ItemStore {
   items?: Item[];
   fetchItems: (authentication: AuthProps) => Promise<Item[]>;
   saveItem: (authentication: AuthProps, item: Item) => void;
+  updateItem: (authentication: AuthProps, item?: Item) => void;
+  removeItem: (authentication: AuthProps, itemId?: number) => void;
 }
 
 export const useItem = create<ItemStore>((set) => ({
@@ -15,5 +22,11 @@ export const useItem = create<ItemStore>((set) => ({
   },
   saveItem: (authentication: AuthProps, item: Item) => {
     createItem(authentication, item);
+  },
+  updateItem: (authentication: AuthProps, item?: Item) => {
+    updateItem(authentication, item!);
+  },
+  removeItem: (authentication: AuthProps, itemId?: number) => {
+    deleteItem(authentication, itemId!);
   },
 }));
