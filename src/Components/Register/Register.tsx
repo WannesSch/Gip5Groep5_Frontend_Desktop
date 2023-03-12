@@ -1,16 +1,8 @@
 import { Button, TextField } from "@mui/material";
-import {
-  ErrorMessage,
-  Field,
-  Form,
-  Formik,
-  FormikHelpers,
-  useFormik,
-} from "formik";
-import React, { useState } from "react";
+import { useFormik } from "formik";
+import React from "react";
 import * as yup from "yup";
-import { StyledAuthBox, StyledTitle } from "../Shared/Shared.styled";
-import { StyledTextField } from "./Register.styled";
+import { StyledAuthBox } from "../Shared/Shared.styled";
 
 interface Values {
   firstName: string;

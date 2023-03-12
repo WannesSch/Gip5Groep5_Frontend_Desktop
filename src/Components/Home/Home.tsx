@@ -1,8 +1,6 @@
-import { Box, Button } from "@mui/material";
-import React from "react";
+import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useProfile } from "../../Hooks/useProfile";
-import { StyledLink } from "../Shared/Shared.styled";
 import { StyledHeader, StyledHomeBox } from "./Home.styled";
 
 function HomeComponent() {

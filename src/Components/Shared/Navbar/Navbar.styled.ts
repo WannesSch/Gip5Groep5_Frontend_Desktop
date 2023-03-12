@@ -1,4 +1,3 @@
-import React from "react";
 import { Avatar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -51,4 +50,4 @@ export const StyledLoginButton = styled(Button)({
   "&:hover": {
     background: "#c3c4c7",
   },
-}); 
+});

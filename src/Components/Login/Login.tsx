@@ -18,7 +18,7 @@ const validationSchema = yup.object({
 });
 
 function LoginComponent() {
-  const { fetchUser, user } = useProfile();
+  const { fetchUser } = useProfile();
 
   const formik = useFormik({
     initialValues: {

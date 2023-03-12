@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
-import React from "react";
 
 export const StyledFooterBox = styled(Box)({
   position: "absolute",

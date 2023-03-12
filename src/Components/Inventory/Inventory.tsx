@@ -1,90 +1,82 @@
-import React, { SetStateAction, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DataGrid,
   GridCellEditCommitParams,
   GridColDef,
-  GridRowEntry,
-  GridRowId,
   GridSelectionModel,
-  GridValueGetterParams,
 } from "@mui/x-data-grid";
-import {
-  Box,
-  Button,
-  Select,
-  TextField,
-  textFieldClasses,
-} from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { StyledTableBox } from "./Inventory.styled";
 import { Item } from "../../Models/Item";
-import { GetRowID } from "../../Utils";
 import { StyledFontAwesomeIcon } from "../Shared/Shared.styled";
-import { faCross, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useItem } from "../../Hooks/useItem";
+import { useProfile } from "../../Hooks/useProfile";
+import ErrorComponent from "../Error/Error";
+import InStockColumnComponent from "./InStockColumn";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70, editable: false },
-  { field: "name", headerName: "Naam", width: 130, editable: true },
-  { field: "type", headerName: "Type", width: 130, editable: true },
+  { field: "id", headerName: "ID", editable: false, flex: 1, maxWidth: 50 },
   {
-    field: "extraInformation",
-    headerName: "Extra Informatie",
-    width: 130,
+    field: "name",
+    headerName: "Name",
     editable: true,
+    flex: 1,
   },
+  { field: "type", headerName: "Type", editable: true, flex: 1 },
   {
-    field: "modelNumber",
-    headerName: "Model Nummer",
-    width: 140,
+    field: "extraInfo",
+    headerName: "Extra Information",
     editable: true,
-  },
-  { field: "price", headerName: "Prijs", width: 130, editable: true },
-  { field: "inStock", headerName: "Hoeveelheid", width: 130, editable: true },
-];
-
-const items: Item[] = [
-  {
-    id: 0,
-    name: "Test0",
-    type: "Test0",
-    extraInformation: "Test0",
-    modelNumber: "Test0",
-    price: 400,
-    inStock: 5,
+    flex: 1,
   },
   {
-    id: 1,
-    name: "Test1",
-    type: "Test1",
-    extraInformation: "Test1",
-    modelNumber: "Test1",
-    price: 400,
-    inStock: 5,
+    field: "modelNr",
+    headerName: "Model number",
+    editable: true,
+    flex: 1,
   },
-
+  { field: "price", headerName: "Price", editable: true, flex: 1 },
+  { field: "amount", headerName: "Amount", editable: true, flex: 1 },
   {
-    id: 2,
-    name: "Test2",
-    type: "Test2",
-    extraInformation: "Test2",
-    modelNumber: "Test2",
-    price: 400,
-    inStock: 5,
+    field: "In Stock",
+    flex: 1,
+    maxWidth: 150,
+    renderCell: (cellValues) => {
+      return <InStockColumnComponent percentage={cellValues.row.amount * 2} />;
+    },
   },
 ];
 
 function InventoryComponent() {
-  const [rows, setRows] = useState<Item[]>(items);
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
+  const { authentication } = useProfile();
+  const { fetchItems } = useItem();
+  const [rows, setRows] = useState<Item[]>([]);
+
+  useEffect(() => {
+    if (!authentication) return;
+    fetchItems(authentication).then((res) => {
+      setRows(res);
+    });
+  }, [authentication, fetchItems]);
+
+  if (!authentication)
+    return (
+      <ErrorComponent
+        title="Forbidden page."
+        description="This page is only visible to users"
+      />
+    );
 
   const createRow = () => {
     return {
-      id: GetRowID(rows),
       name: "",
       type: "",
-      extraInformation: "",
-      modelNumber: "",
-      price: 0,
-      inStock: 0,
+      extraInfo: "",
+      modelNr: "",
+      price: "",
+      amount: 0,
     };
   };
 
@@ -94,30 +86,27 @@ function InventoryComponent() {
 
   const handleDeleteRow = () => {
     const selectedIDs = new Set(selectionModel);
-    setRows((r) => r.filter((x) => !selectedIDs.has(x.id)));
+    setRows((r) => r.filter((x) => x.id != null && !selectedIDs.has(x.id)));
   };
 
   const handleRowEditCommit = (editableRow: GridCellEditCommitParams) => {
-    let row = rows.filter((r) => r.id == editableRow.id)[0];
+    let row = rows.filter((r) => r.id === editableRow.id)[0];
 
     switch (editableRow.field) {
       case "name":
         row.name = editableRow.value;
         break;
-      case "type":
-        row.type = editableRow.value;
+      case "extraInfo":
+        row.extraInfo = editableRow.value;
         break;
-      case "extraInformation":
-        row.extraInformation = editableRow.value;
-        break;
-      case "modelNumber":
-        row.modelNumber = editableRow.value;
+      case "modelNr":
+        row.modelNr = editableRow.value;
         break;
       case "price":
         row.price = editableRow.value;
         break;
-      case "inStock":
-        row.inStock = editableRow.value;
+      case "amount":
+        row.amount = editableRow.value;
         break;
     }
     console.log(row); //-> naar server voor op te slagen
@@ -129,8 +118,8 @@ function InventoryComponent() {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         checkboxSelection
         onSelectionModelChange={(ids) => {
           setSelectionModel(ids);

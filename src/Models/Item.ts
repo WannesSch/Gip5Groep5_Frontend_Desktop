@@ -1,9 +1,9 @@
 export interface Item {
-  id: number;
+  id?: number;
   name: string;
   type: string;
-  extraInformation: string;
-  modelNumber: string;
-  price: number;
-  inStock: number;
+  extraInfo: string;
+  modelNr: string;
+  price: string;
+  amount: number;
 }
