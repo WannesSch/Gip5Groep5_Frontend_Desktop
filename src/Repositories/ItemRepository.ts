@@ -40,12 +40,12 @@ export const createItem = async (authentication: AuthProps, item: Item) => {
       },
     }
   );
-  console.log(status);
+  return status;
 };
 
 export const updateItem = async (authentication: AuthProps, item: Item) => {
   if (!authentication) return;
-
+  console.log(item);
   const { status } = await axios.put<Item>(
     `${api_url}/api/v1/item/update/${item.id}`,
     item,
@@ -59,7 +59,7 @@ export const updateItem = async (authentication: AuthProps, item: Item) => {
       },
     }
   );
-  console.log(status);
+  return status;
 };
 
 export const deleteItem = async (authentication: AuthProps, itemId: number) => {
@@ -77,5 +77,5 @@ export const deleteItem = async (authentication: AuthProps, itemId: number) => {
       },
     }
   );
-  console.log(status);
+  return status;
 };

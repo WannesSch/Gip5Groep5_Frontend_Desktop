@@ -1,3 +1,4 @@
+import { HttpStatusCode } from "axios";
 import { create } from "zustand";
 import { AuthProps } from "../Models/AuthProps";
 import { Item } from "../Models/Item";
@@ -11,22 +12,31 @@ import {
 export interface ItemStore {
   items?: Item[];
   fetchItems: (authentication: AuthProps) => Promise<Item[]>;
-  saveItem: (authentication: AuthProps, item: Item) => void;
-  updateItem: (authentication: AuthProps, item?: Item) => void;
-  removeItem: (authentication: AuthProps, itemId?: number) => void;
+  saveItem: (
+    authentication: AuthProps,
+    item: Item
+  ) => Promise<number | undefined>;
+  updateItem: (
+    authentication: AuthProps,
+    item?: Item
+  ) => Promise<number | undefined>;
+  removeItem: (
+    authentication: AuthProps,
+    itemId?: number
+  ) => Promise<number | undefined>;
 }
 
 export const useItem = create<ItemStore>((set) => ({
   fetchItems: async (authentication) => {
     return await getAllItems(set, authentication);
   },
-  saveItem: (authentication: AuthProps, item: Item) => {
-    createItem(authentication, item);
+  saveItem: async (authentication: AuthProps, item: Item) => {
+    return await createItem(authentication, item);
   },
-  updateItem: (authentication: AuthProps, item?: Item) => {
-    updateItem(authentication, item!);
+  updateItem: async (authentication: AuthProps, item?: Item) => {
+    return await updateItem(authentication, item!);
   },
-  removeItem: (authentication: AuthProps, itemId?: number) => {
-    deleteItem(authentication, itemId!);
+  removeItem: async (authentication: AuthProps, itemId?: number) => {
+    return await deleteItem(authentication, itemId!);
   },
 }));

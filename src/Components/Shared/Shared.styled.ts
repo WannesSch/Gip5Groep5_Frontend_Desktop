@@ -60,3 +60,24 @@ export const StyledMessage = styled(Box)<MessageProps>(({ $background }) => ({
   marginTop: "2vh",
   boxShadow: "1px 2px 9px #a3a3a3",
 }));
+
+export const StyledOverlay = styled(Box)({
+  position: "absolute",
+  zIndex: "9999",
+  background: "rgba(0, 0, 0, 0.7)",
+  top: "0",
+  width: "100%",
+  height: "100%",
+});
+
+export const StyledOverlayBox = styled(Box)({
+  width: "30vw",
+  boxShadow: "1px 2px 9px #a3a3a3",
+  borderRadius: "5px",
+  margin: "auto",
+  marginBlock: "5vh",
+  display: "flex",
+  flexDirection: "column",
+  background: "#F1F1F1",
+  padding: "3rem",
+});

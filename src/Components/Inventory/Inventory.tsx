@@ -3,15 +3,23 @@ import { DataGrid, GridCellEditCommitParams } from "@mui/x-data-grid";
 import { Box, Button } from "@mui/material";
 import { StyledTableBox } from "./Inventory.styled";
 import { Item } from "../../Models/Item";
-import { StyledMessage, StyledFontAwesomeIcon } from "../Shared/Shared.styled";
+import {
+  StyledMessage,
+  StyledFontAwesomeIcon,
+  StyledOverlay,
+  StyledAuthBox,
+  StyledOverlayBox,
+} from "../Shared/Shared.styled";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useItem } from "../../Hooks/useItem";
 import { useProfile } from "../../Hooks/useProfile";
 import ErrorComponent from "../Error/Error";
 import { getColumns } from "./Inventory.helper";
+import AddRowComponent from "./AddRow";
 
 function InventoryComponent() {
-  const [editRow, setEditRow] = useState();
+  const [editRow, setEditRow] = useState<string>("");
+  const [isOverlayOpened, setIsoverlayOpened] = useState<boolean>(false);
   const { authentication } = useProfile();
   const { fetchItems, updateItem, removeItem } = useItem();
   const [rows, setRows] = useState<Item[]>([]);
@@ -24,7 +32,7 @@ function InventoryComponent() {
   }, [authentication, fetchItems]);
 
   const columns = useMemo(
-    () => getColumns({ authentication, updateItem, removeItem }),
+    () => getColumns({ authentication, updateItem, removeItem, setEditRow }),
     [authentication, updateItem, removeItem]
   );
   if (!authentication)
@@ -50,37 +58,11 @@ function InventoryComponent() {
     setRows((rows) => [...rows, createRow()]);
   };
 
-  const handleRowEditCommit = (editableRow: GridCellEditCommitParams) => {
-    let row = rows.filter((r) => r.id === editableRow.id)[0];
-
-    switch (editableRow.field) {
-      case "name":
-        row.name = editableRow.value;
-        break;
-      case "extraInfo":
-        row.extraInfo = editableRow.value;
-        break;
-      case "modelNr":
-        row.modelNr = editableRow.value;
-        break;
-      case "price":
-        row.price = editableRow.value;
-        break;
-      case "amount":
-        row.amount = editableRow.value;
-        break;
-    }
-    console.log(row); //-> naar server voor op te slagen
-  };
-
   return (
     <>
-      {editRow ? (
-        <StyledMessage $background="#ba7734">
-          You have unsaved changes
-        </StyledMessage>
-      ) : (
-        <></>
+      {isOverlayOpened ? <AddRowComponent /> : <></>}
+      {editRow && (
+        <StyledMessage $background="#ba7734">{editRow}</StyledMessage>
       )}
       <StyledTableBox>
         <DataGrid
@@ -88,8 +70,8 @@ function InventoryComponent() {
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}
-          onCellEditCommit={(row) => {
-            handleRowEditCommit(row);
+          onCellEditCommit={() => {
+            setEditRow("You have unsaved changes");
           }}
         />
         <Box>

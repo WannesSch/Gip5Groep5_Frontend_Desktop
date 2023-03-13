@@ -1,6 +1,7 @@
 import { faSave, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
+import { Dispatch, SetStateAction } from "react";
 import { AuthProps } from "../../Models/AuthProps";
 import { Item } from "../../Models/Item";
 import { StyledFontAwesomeIcon } from "../Shared/Shared.styled";
@@ -10,15 +11,25 @@ type ColumnFunctionProps = {
   authentication?: AuthProps;
   updateItem: (authentication: AuthProps, item?: Item) => void;
   removeItem: (authentication: AuthProps, itemId?: number) => void;
+  setEditRow: Dispatch<SetStateAction<string>>;
 };
 
 export const getColumns = ({
   authentication,
   updateItem,
   removeItem,
+  setEditRow,
 }: ColumnFunctionProps) => {
-  const onSaveButtonClick = (item: Item) => {
-    updateItem(authentication!, item);
+  const onSaveButtonClick = async (item: Item) => {
+    item.amount = Number(item.amount);
+    const status = await updateItem(authentication!, item);
+
+    if (`${status}` === "200") setEditRow("Row updated");
+    else setEditRow("An error occured");
+
+    setTimeout(() => {
+      setEditRow("");
+    }, 2000);
   };
   const onDeleteButtonClick = (itemId: number) => {
     removeItem(authentication!, itemId);
