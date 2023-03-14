@@ -9,7 +9,7 @@ type ProgressBarProps = {
 };
 
 export const StyledTableBox = styled(Box)({
-  height: "65vh",
+  height: "70vh",
   width: "70vw",
   margin: auto,
   paddingTop: 70,

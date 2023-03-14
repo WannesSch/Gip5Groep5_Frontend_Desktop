@@ -28,6 +28,7 @@ export const getUserByEmail = async (
     authentication: {
       username: inputValues.email,
       password: inputValues.password,
+      roles: data.roles,
     },
   }));
 };

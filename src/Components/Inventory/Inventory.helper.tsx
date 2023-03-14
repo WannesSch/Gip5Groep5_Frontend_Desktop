@@ -1,7 +1,7 @@
 import { faSave, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { AuthProps } from "../../Models/AuthProps";
 import { Item } from "../../Models/Item";
 import { StyledFontAwesomeIcon } from "../Shared/Shared.styled";
@@ -34,6 +34,40 @@ export const getColumns = ({
   const onDeleteButtonClick = (itemId: number) => {
     removeItem(authentication!, itemId);
   };
+
+  if (!authentication) return [];
+  let gridCol: GridColDef = {
+    field: "Controls",
+    flex: 1,
+    renderCell: (cellValues) => {
+      return (
+        <>
+          <Button onClick={() => onSaveButtonClick(cellValues.row)}>
+            <StyledFontAwesomeIcon $color={"#3a7a1f"} icon={faSave} />
+          </Button>
+        </>
+      );
+    },
+  };
+
+  if (authentication.roles === "ADMIN") {
+    gridCol = {
+      field: "Controls",
+      flex: 1,
+      renderCell: (cellValues) => {
+        return (
+          <>
+            <Button onClick={() => onSaveButtonClick(cellValues.row)}>
+              <StyledFontAwesomeIcon $color={"#3a7a1f"} icon={faSave} />
+            </Button>
+            <Button onClick={() => onDeleteButtonClick(cellValues.row.id)}>
+              <StyledFontAwesomeIcon $color={"#ba2d2d"} icon={faTrash} />
+            </Button>
+          </>
+        );
+      },
+    };
+  }
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", editable: false, flex: 1, maxWidth: 50 },
@@ -68,22 +102,7 @@ export const getColumns = ({
         );
       },
     },
-    {
-      field: "Controls",
-      flex: 1,
-      renderCell: (cellValues) => {
-        return (
-          <>
-            <Button onClick={() => onSaveButtonClick(cellValues.row)}>
-              <StyledFontAwesomeIcon $color={"#3a7a1f"} icon={faSave} />
-            </Button>
-            <Button onClick={() => onDeleteButtonClick(cellValues.row.id)}>
-              <StyledFontAwesomeIcon $color={"#ba2d2d"} icon={faTrash} />
-            </Button>
-          </>
-        );
-      },
-    },
+    gridCol,
   ];
 
   return columns;

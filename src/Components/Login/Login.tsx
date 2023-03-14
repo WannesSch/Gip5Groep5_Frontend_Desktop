@@ -1,6 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useProfile } from "../../Hooks/useProfile";
 import { InputValues } from "../../Models/InputValues";
@@ -60,6 +61,9 @@ function LoginComponent() {
             Submit
           </Button>
         </form>
+        <Link to={"/register"}>
+          <Button>No account? Register here!</Button>
+        </Link>
       </StyledAuthBox>
     </>
   );

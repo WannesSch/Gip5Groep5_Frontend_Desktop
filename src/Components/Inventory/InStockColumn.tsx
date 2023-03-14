@@ -16,6 +16,7 @@ function InStockColumnComponent({ percentage }: ColumnProps) {
     if (percentage <= 20) setColor("#ba2d2d");
     if (percentage < 75 && percentage > 20) setColor("#a3622c");
   }, [percentage]);
+
   return (
     <StyledColumnBox>
       <StyledProgressBar percentage={percentage} $color={color} />

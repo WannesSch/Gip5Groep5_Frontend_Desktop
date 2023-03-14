@@ -19,7 +19,7 @@ import AddRowComponent from "./AddRow";
 
 function InventoryComponent() {
   const [editRow, setEditRow] = useState<string>("");
-  const [isOverlayOpened, setIsoverlayOpened] = useState<boolean>(false);
+  const [overlayOpened, setOverlayOpened] = useState<boolean>(false);
   const { authentication } = useProfile();
   const { fetchItems, updateItem, removeItem } = useItem();
   const [rows, setRows] = useState<Item[]>([]);
@@ -30,11 +30,11 @@ function InventoryComponent() {
       setRows(res);
     });
   }, [authentication, fetchItems]);
-
   const columns = useMemo(
     () => getColumns({ authentication, updateItem, removeItem, setEditRow }),
     [authentication, updateItem, removeItem]
   );
+
   if (!authentication)
     return (
       <ErrorComponent
@@ -43,24 +43,23 @@ function InventoryComponent() {
       />
     );
 
-  const createRow = () => {
-    return {
-      name: "",
-      type: "",
-      extraInfo: "",
-      modelNr: "",
-      price: "",
-      amount: 0,
-    };
+  const handleCellCommit = () => {
+    setEditRow("You have unsaved changes");
   };
-
   const handleAddRow = () => {
-    setRows((rows) => [...rows, createRow()]);
+    setOverlayOpened(true);
   };
 
   return (
     <>
-      {isOverlayOpened ? <AddRowComponent /> : <></>}
+      {overlayOpened ? (
+        <AddRowComponent
+          isOverlayOpened={overlayOpened}
+          onClose={() => setOverlayOpened(false)}
+        />
+      ) : (
+        <></>
+      )}
       {editRow && (
         <StyledMessage $background="#ba7734">{editRow}</StyledMessage>
       )}
@@ -70,14 +69,16 @@ function InventoryComponent() {
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}
-          onCellEditCommit={() => {
-            setEditRow("You have unsaved changes");
-          }}
+          onCellEditCommit={handleCellCommit}
         />
         <Box>
-          <Button onClick={handleAddRow}>
-            <StyledFontAwesomeIcon $color={"green"} icon={faPlus} />
-          </Button>
+          {authentication.roles === "ADMIN" ? (
+            <Button onClick={handleAddRow}>
+              <StyledFontAwesomeIcon $color={"green"} icon={faPlus} />
+            </Button>
+          ) : (
+            <></>
+          )}
         </Box>
       </StyledTableBox>
     </>

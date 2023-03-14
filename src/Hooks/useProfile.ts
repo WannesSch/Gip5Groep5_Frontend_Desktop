@@ -17,6 +17,6 @@ export const useProfile = create<UserStore>((set) => ({
   },
   logout: () => {
     set((state) => ({ ...state, user: undefined }));
-    set((state) => ({ ...state, password: undefined }));
+    set((state) => ({ ...state, authentication: undefined }));
   },
 }));
