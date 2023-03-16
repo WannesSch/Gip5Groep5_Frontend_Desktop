@@ -3,18 +3,18 @@ import { useFormik } from "formik";
 import React from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
+import { useProfile } from "../../Hooks/useProfile";
+import { InputValues } from "../../Models/InputValues";
+import { User } from "../../Models/User";
 import { StyledAuthBox } from "../Shared/Shared.styled";
-
-interface Values {
-  firstName: string;
-  lastName: string;
-  email: string;
-  birthDate: string;
-  password: string;
-}
 
 const validationSchema = yup.object({
   firstName: yup.string().min(2, "name must be 2 or more characters long"),
+  lastName: yup.string().min(2, "name must be 2 or more characters long"),
+  birthDate: yup
+    .string()
+    .min(10, "please use format dd/mm/yyyy")
+    .max(10, "please use format dd/mm/yyyy"),
   email: yup
     .string()
     .email("Enter a valid email")
@@ -26,17 +26,20 @@ const validationSchema = yup.object({
 });
 
 function RegisterComponent() {
+  const { registerUser } = useProfile();
+
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
       email: "",
-      birthDate: "",
+      birthdate: "",
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values: Values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: (values: InputValues) => {
+      console.log(values);
+      registerUser(values);
     },
   });
 
@@ -48,21 +51,21 @@ function RegisterComponent() {
             fullWidth
             id="firstname"
             name="firstname"
-            label="Firstname"
-            value={formik.values.firstName}
+            label="FirstName"
+            value={formik.values.firstname}
             onChange={formik.handleChange}
-            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-            helperText={formik.touched.firstName && formik.errors.firstName}
+            error={formik.touched.firstname && Boolean(formik.errors.firstname)}
+            helperText={formik.touched.firstname && formik.errors.firstname}
           />
           <TextField
             fullWidth
             id="lastname"
             name="lastname"
             label="Lastname"
-            value={formik.values.lastName}
+            value={formik.values.lastname}
             onChange={formik.handleChange}
-            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-            helperText={formik.touched.lastName && formik.errors.lastName}
+            error={formik.touched.lastname && Boolean(formik.errors.lastname)}
+            helperText={formik.touched.lastname && formik.errors.lastname}
           />
           <TextField
             fullWidth
@@ -76,13 +79,13 @@ function RegisterComponent() {
           />
           <TextField
             fullWidth
-            id="birthDate"
-            name="birthDate"
+            id="birthdate"
+            name="birthdate"
             label="BirthDate"
-            value={formik.values.birthDate}
+            value={formik.values.birthdate}
             onChange={formik.handleChange}
-            error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
-            helperText={formik.touched.birthDate && formik.errors.birthDate}
+            error={formik.touched.birthdate && Boolean(formik.errors.birthdate)}
+            helperText={formik.touched.birthdate && formik.errors.birthdate}
           />
           <TextField
             fullWidth

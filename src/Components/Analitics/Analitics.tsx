@@ -1,7 +1,9 @@
-import React from "react";
-import { GetStockGraphConfig } from "./Analitics.helper";
+import React, { useEffect, useMemo, useState } from "react";
+import { GetDoughnutData, GetStockGraphData } from "./Analitics.helper";
 import {
   StyledAnaliticsBox,
+  StyledBar,
+  StyledDoughnut,
   StyledGraph1Box,
   StyledGraph2Box,
   StyledGraph3Box,
@@ -16,25 +18,47 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartData,
+  ArcElement,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
+import { useItem } from "../../Hooks/useItem";
+import { Item } from "../../Models/Item";
+import { useProfile } from "../../Hooks/useProfile";
 ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 );
 
 function AnaliticsComponent() {
-  const stockGraphConfig = GetStockGraphConfig();
+  const { fetchItems } = useItem();
+  const [items, setItems] = useState<Item[]>();
+  const [barData, setBarData] = useState<ChartData<"bar">>();
+  const [doughnutData, setDoughnutData] = useState<ChartData<"doughnut">>();
+  const { authentication } = useProfile();
+
+  useEffect(() => {
+    if (!authentication) return;
+    fetchItems(authentication).then((res) => {
+      setItems(res);
+      setBarData(GetStockGraphData(res));
+      setDoughnutData(GetDoughnutData());
+    });
+  }, [authentication, fetchItems]);
+
   return (
     <StyledAnaliticsBox>
       <StyledStockGraphBox>
-        <Bar data={stockGraphConfig} />
+        {barData ? <StyledBar data={barData} /> : <></>}
       </StyledStockGraphBox>
-      <StyledTotalStockGraphBox />
+      <StyledTotalStockGraphBox>
+        {doughnutData ? <StyledDoughnut data={doughnutData} /> : <></>}
+      </StyledTotalStockGraphBox>
       <StyledGraph1Box />
       <StyledGraph2Box />
       <StyledGraph3Box />

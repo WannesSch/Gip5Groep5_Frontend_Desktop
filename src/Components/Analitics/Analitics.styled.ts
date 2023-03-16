@@ -1,5 +1,6 @@
 import { Box, styled } from "@mui/material";
 import React from "react";
+import { Bar, Doughnut } from "react-chartjs-2";
 
 export const StyledAnaliticsBox = styled(Box)({
   display: "grid",
@@ -15,6 +16,9 @@ export const StyledAnaliticsBox = styled(Box)({
 const StyledGraphBox = styled(Box)({
   boxShadow: "1px 2px 9px #a3a3a3",
   borderRadius: "5px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 });
 
 export const StyledStockGraphBox = styled(StyledGraphBox)({
@@ -35,4 +39,17 @@ export const StyledGraph2Box = styled(StyledGraphBox)({
 
 export const StyledGraph3Box = styled(StyledGraphBox)({
   gridArea: "6 / 7 / 9 / 10",
+});
+
+export const StyledBar = styled(Bar)({
+  margin: "1vh",
+  width: "90%",
+  height: "90%",
+});
+
+export const StyledDoughnut = styled(Doughnut)({
+  width: "100px",
+  height: "100px",
+  margin: "1vh",
+  display: "block",
 });

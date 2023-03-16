@@ -32,3 +32,28 @@ export const getUserByEmail = async (
     },
   }));
 };
+
+export const createUser = async (
+  set: Set<UserStore>,
+  inputValues: InputValues
+) => {
+  const { data } = await axios.post<User>(
+    `${api_url}/api/v1/user/adduser`,
+    inputValues,
+    {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        Accept: "*/*",
+      },
+    }
+  );
+  set((state) => ({ ...state, user: data }));
+  set((state) => ({
+    ...state,
+    authentication: {
+      username: inputValues.email,
+      password: inputValues.password,
+      roles: data.roles,
+    },
+  }));
+};
