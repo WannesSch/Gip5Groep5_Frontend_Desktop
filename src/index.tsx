@@ -9,6 +9,7 @@ import LoginComponent from "./Components/Login/Login";
 import RegisterComponent from "./Components/Register/Register";
 import FooterComponent from "./Components/Shared/Footer/Footer";
 import NavBarComponent from "./Components/Shared/Navbar/Navbar";
+import UsersComponent from "./Components/Users/Users";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -23,6 +24,7 @@ root.render(
       <Route path="/analitics" element={<AnaliticsComponent />} />
       <Route path="/login" element={<LoginComponent />} />
       <Route path="/register" element={<RegisterComponent />} />
+      <Route path="/users" element={<UsersComponent />} />
       <Route
         path="*"
         element={

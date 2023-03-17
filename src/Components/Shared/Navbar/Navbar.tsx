@@ -15,24 +15,24 @@ import {
 
 const pages = [
   {
-    name: "Home",
-    link: "/",
-    icon: <StyledFontAwesomeIcon $color={"inherit"} icon={"home"} />,
-  },
-  {
     name: "Inventory",
     link: "/inventory",
-    icon: <StyledFontAwesomeIcon $color={"inherit"} icon={"inventory"} />,
+    roles: ["USER", "ADMIN"],
   },
   {
     name: "Analitic data",
     link: "/analitics",
-    icon: <StyledFontAwesomeIcon $color={"inherit"} icon={"hammer"} />,
+    roles: ["ADMIN"],
+  },
+  {
+    name: "Users",
+    link: "/users",
+    roles: ["ADMIN"],
   },
 ];
 
 function NavBarComponent() {
-  const { logout, user } = useProfile();
+  const { logout, user, authentication } = useProfile();
 
   const HandleLogout = () => {
     logout();
@@ -43,14 +43,20 @@ function NavBarComponent() {
       <StyledFontAwesomeIcon $color={"#F1F1F1"} icon={faUserGroup} />
       <StyledNavbarTitle>Gip 5 Groep 5</StyledNavbarTitle>
       <StyledNavbarBox>
-        {pages.map((page) => (
-          <Link to={page.link}>
-            <StyledNavbarButton key={page.name}>
-              <>{page.icon}</>
-              {page.name}
-            </StyledNavbarButton>
-          </Link>
-        ))}
+        <Link to={"/"}>
+          <StyledNavbarButton>Home</StyledNavbarButton>
+        </Link>
+        {pages.map((page) =>
+          authentication && page.roles?.includes(authentication.roles) ? (
+            <Link to={page.link}>
+              <StyledNavbarButton key={page.name}>
+                {page.name}
+              </StyledNavbarButton>
+            </Link>
+          ) : (
+            <></>
+          )
+        )}
       </StyledNavbarBox>
       {user ? (
         <StyledAvatarBox>

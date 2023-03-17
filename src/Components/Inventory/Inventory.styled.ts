@@ -16,7 +16,7 @@ export const StyledTableBox = styled(Box)({
 });
 
 export const StyledColumnBox = styled(Box)({
-  width: "90%",
+  width: "20vw",
   position: "relative",
   height: "50%",
   display: "flex",

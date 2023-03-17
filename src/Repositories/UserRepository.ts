@@ -4,6 +4,7 @@ import { InputValues } from "../Models/InputValues";
 import { User } from "../Models/User";
 import { Set } from "../Repositories/Set";
 import { api_url } from "../Global";
+import { AuthProps } from "../Models/AuthProps";
 
 export const getUserByEmail = async (
   set: Set<UserStore>,
@@ -56,4 +57,23 @@ export const createUser = async (
       roles: data.roles,
     },
   }));
+};
+
+export const getAllUsers = async (
+  set: Set<UserStore>,
+  authentication: AuthProps
+) => {
+  const { data } = await axios.get<User[]>(api_url + `/api/v1/user/getall`, {
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+    auth: {
+      username: authentication.username,
+      password: authentication.password,
+    },
+  });
+
+  set((state) => ({ ...state, users: data }));
+
+  return data;
 };
