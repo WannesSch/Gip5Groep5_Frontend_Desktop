@@ -77,3 +77,55 @@ export const getAllUsers = async (
 
   return data;
 };
+
+export const deleteUser = async (authentication: AuthProps, id: number) => {
+  if (!authentication) return;
+
+  const { status } = await axios.delete<User>(
+    `${api_url}/api/v1/user/delete/${id}`,
+    {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      auth: {
+        username: authentication.username,
+        password: authentication.password,
+      },
+    }
+  );
+  return status;
+};
+
+export const addUser = async (authentication: AuthProps, user: User) => {
+  const { data } = await axios.post<User>(
+    `${api_url}/api/v1/user/adduser`,
+    user,
+    {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        Accept: "*/*",
+      },
+      auth: {
+        username: authentication.username,
+        password: authentication.password,
+      },
+    }
+  );
+};
+
+export const addAdmin = async (authentication: AuthProps, user: User) => {
+  const { data } = await axios.post<User>(
+    `${api_url}/api/v1/user/addadmin`,
+    user,
+    {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        Accept: "*/*",
+      },
+      auth: {
+        username: authentication.username,
+        password: authentication.password,
+      },
+    }
+  );
+};
