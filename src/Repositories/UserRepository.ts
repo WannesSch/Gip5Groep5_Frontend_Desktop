@@ -10,7 +10,7 @@ export const getUserByEmail = async (
   set: Set<UserStore>,
   inputValues: InputValues
 ) => {
-  const { data } = await axios.get<User>(
+  const { status, data } = await axios.get<User>(
     api_url + `/api/v1/user/email/${inputValues.email}`,
     {
       headers: {
@@ -27,18 +27,21 @@ export const getUserByEmail = async (
   set((state) => ({
     ...state,
     authentication: {
+      id: data.id!,
       username: inputValues.email,
       password: inputValues.password,
       roles: data.roles,
     },
   }));
+
+  return status;
 };
 
 export const createUser = async (
   set: Set<UserStore>,
   inputValues: InputValues
 ) => {
-  const { data } = await axios.post<User>(
+  const { data, status } = await axios.post<User>(
     `${api_url}/api/v1/user/adduser`,
     inputValues,
     {
@@ -52,11 +55,13 @@ export const createUser = async (
   set((state) => ({
     ...state,
     authentication: {
+      id: data.id!,
       username: inputValues.email,
       password: inputValues.password,
       roles: data.roles,
     },
   }));
+  return status;
 };
 
 export const getAllUsers = async (
@@ -96,14 +101,18 @@ export const deleteUser = async (authentication: AuthProps, id: number) => {
   return status;
 };
 
-export const addUser = async (authentication: AuthProps, user: User) => {
-  const { data } = await axios.post<User>(
-    `${api_url}/api/v1/user/adduser`,
-    user,
+export const demoteAdmin = async (
+  authentication: AuthProps,
+  userId: number
+) => {
+  await axios.put<User>(
+    `${api_url}/api/v1/user/demoteAdmin/${userId}`,
+    userId,
     {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
         Accept: "*/*",
+        "Content-Length": "80",
       },
       auth: {
         username: authentication.username,
@@ -113,14 +122,18 @@ export const addUser = async (authentication: AuthProps, user: User) => {
   );
 };
 
-export const addAdmin = async (authentication: AuthProps, user: User) => {
-  const { data } = await axios.post<User>(
-    `${api_url}/api/v1/user/addadmin`,
-    user,
+export const promoteAdmin = async (
+  authentication: AuthProps,
+  userId: number
+) => {
+  await axios.put<User>(
+    `${api_url}/api/v1/user/promoteAdmin/${userId}`,
+    userId,
     {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
         Accept: "*/*",
+        "Content-Length": "80",
       },
       auth: {
         username: authentication.username,

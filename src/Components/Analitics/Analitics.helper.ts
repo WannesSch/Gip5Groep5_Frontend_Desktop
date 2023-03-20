@@ -64,6 +64,12 @@ export const GetDoughnutData = (items: Item[]) => {
               return a + b;
             }),
           items
+            .filter((i) => i.type === "GPU")
+            .map((i) => i.amount)
+            .reduce((a, b) => {
+              return a + b;
+            }),
+          items
             .filter((i) => i.type === "SSD")
             .map((i) => i.amount)
             .reduce((a, b) => {

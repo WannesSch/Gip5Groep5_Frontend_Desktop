@@ -1,7 +1,7 @@
 import { Button, Fade, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React, { useState } from "react";
+import React from "react";
 import {
   StyledFontAwesomeIcon,
   StyledOverlay,
@@ -24,11 +24,16 @@ const validationSchema = yup.object({
 type AddRowProps = {
   isOverlayOpened: boolean;
   onClose: () => void;
+  updateItems: () => void;
 };
 
-function AddRowComponent({ isOverlayOpened, onClose }: AddRowProps) {
+function AddRowComponent({
+  isOverlayOpened,
+  onClose,
+  updateItems,
+}: AddRowProps) {
   const { authentication } = useProfile();
-  const { saveItem, fetchItems } = useItem();
+  const { saveItem } = useItem();
 
   const formik = useFormik({
     initialValues: {
@@ -40,9 +45,10 @@ function AddRowComponent({ isOverlayOpened, onClose }: AddRowProps) {
       amount: 0,
     },
     validationSchema: validationSchema,
-    onSubmit: (values: Item) => {
-      saveItem(authentication!, values);
-      fetchItems(authentication!);
+    onSubmit: async (values: Item) => {
+      await saveItem(authentication!, values);
+      updateItems();
+      onClose();
     },
   });
 

@@ -31,6 +31,7 @@ import ChartComponent from "./Chart";
 import { Typography } from "@mui/material";
 import InStockColumnComponent from "../Inventory/InStockColumn";
 import ErrorComponent from "../Error/Error";
+import { User } from "../../Models/User";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -46,11 +47,12 @@ ChartJS.register(
 function AnaliticsComponent() {
   const { fetchItems } = useItem();
   const [items, setItems] = useState<Item[]>();
+  const [users, setUsers] = useState<User[]>();
   const [barData, setBarData] = useState<ChartData<"bar">>();
+  const { authentication, fetchAllUsers } = useProfile();
   const [doughnutData, setDoughnutData] = useState<ChartData<"doughnut">>();
   const [lineData, setLineData] = useState<ChartData<"line">>();
   const [priceBarData, setPriceBarData] = useState<ChartData<"bar">>();
-  const { authentication } = useProfile();
 
   useEffect(() => {
     if (!authentication) return;
@@ -61,7 +63,10 @@ function AnaliticsComponent() {
       setLineData(GetLineChartData(res));
       setPriceBarData(GetPriceGraphData(res));
     });
-  }, [authentication, fetchItems]);
+    fetchAllUsers(authentication).then((res) => {
+      setUsers(res);
+    });
+  }, [authentication, fetchItems, fetchAllUsers]);
 
   if (!authentication)
     return (
@@ -95,18 +100,28 @@ function AnaliticsComponent() {
       </ChartComponent>
       <ChartComponent title="Other Data" $gridArea="6 / 11 / 11 / 16">
         <StyledDataText>Total components: {items?.length}</StyledDataText>
+        <StyledDataText>
+          Total users: {users?.filter((u) => u.roles === "USER").length}
+        </StyledDataText>
+        <StyledDataText>
+          Total admins: {users?.filter((u) => u.roles === "ADMIN").length}
+        </StyledDataText>
         <Typography>
-          Stock:{" "}
+          Stock:
           <InStockColumnComponent
             percentage={
               items
-                ? (items
-                    ?.map((i) => i.amount)
-                    .reduce((a, b) => {
-                      return a + b;
-                    }) /
-                    1000) *
-                  100
+                ? parseFloat(
+                    (
+                      (items
+                        ?.map((i) => i.amount)
+                        .reduce((a, b) => {
+                          return a + b;
+                        }) /
+                        1000) *
+                      100
+                    ).toFixed(2)
+                  )
                 : 0
             }
           />

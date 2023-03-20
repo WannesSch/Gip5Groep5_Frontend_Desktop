@@ -1,15 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { DataGrid, GridCellEditCommitParams } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button } from "@mui/material";
 import { StyledTableBox } from "./Inventory.styled";
 import { Item } from "../../Models/Item";
-import {
-  StyledMessage,
-  StyledFontAwesomeIcon,
-  StyledOverlay,
-  StyledAuthBox,
-  StyledOverlayBox,
-} from "../Shared/Shared.styled";
+import { StyledMessage, StyledFontAwesomeIcon } from "../Shared/Shared.styled";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useItem } from "../../Hooks/useItem";
 import { useProfile } from "../../Hooks/useProfile";
@@ -26,13 +20,27 @@ function InventoryComponent() {
 
   useEffect(() => {
     if (!authentication) return;
-    fetchItems(authentication).then((res) => {
+    updateItems();
+    //eslint-disable-next-line
+  }, [authentication, fetchItems]);
+
+  const updateItems = () => {
+    fetchItems(authentication!).then((res) => {
       setRows(res);
     });
-  }, [authentication, fetchItems]);
+  };
+
   const columns = useMemo(
-    () => getColumns({ authentication, updateItem, removeItem, setEditRow }),
-    [authentication, updateItem, removeItem]
+    () =>
+      getColumns({
+        authentication,
+        updateItem,
+        removeItem,
+        setEditRow,
+        updateItems,
+      }),
+    //eslint-disable-next-line
+    [rows]
   );
 
   if (!authentication)
@@ -56,6 +64,7 @@ function InventoryComponent() {
         <AddRowComponent
           isOverlayOpened={overlayOpened}
           onClose={() => setOverlayOpened(false)}
+          updateItems={updateItems}
         />
       ) : (
         <></>

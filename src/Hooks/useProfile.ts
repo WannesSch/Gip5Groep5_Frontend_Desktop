@@ -3,45 +3,48 @@ import { AuthProps } from "../Models/AuthProps";
 import { InputValues } from "../Models/InputValues";
 import { User } from "../Models/User";
 import {
-  addAdmin,
-  addUser,
   createUser,
   deleteUser,
+  demoteAdmin,
   getAllUsers,
   getUserByEmail,
+  promoteAdmin,
 } from "../Repositories/UserRepository";
 
 export interface UserStore {
   user?: User | undefined;
   users?: User[] | undefined;
   authentication?: AuthProps;
-  fetchUser: (inputValues: InputValues) => void;
+  fetchUser: (inputValues: InputValues) => Promise<number | undefined>;
   fetchAllUsers: (authentication: AuthProps) => Promise<User[]>;
-  registerUser: (inputValues: InputValues) => void;
-  removeUser: (authentication: AuthProps, id: number) => void;
-  setUser: (authentication: AuthProps, user: User) => void;
-  setAdmin: (authentication: AuthProps, user: User) => void;
+  registerUser: (inputValues: InputValues) => Promise<number | undefined>;
+  removeUser: (
+    authentication: AuthProps,
+    id: number
+  ) => Promise<number | undefined>;
+  setUser: (authentication: AuthProps, userId: number) => void;
+  setAdmin: (authentication: AuthProps, userId: number) => void;
   logout: () => void;
 }
 
 export const useProfile = create<UserStore>((set) => ({
   fetchUser: async (inputValues) => {
-    getUserByEmail(set, inputValues);
+    return getUserByEmail(set, inputValues);
   },
   fetchAllUsers: async (authentication) => {
     return getAllUsers(set, authentication);
   },
   registerUser: async (inputValues) => {
-    createUser(set, inputValues);
+    return createUser(set, inputValues);
   },
   removeUser: (authentication, id) => {
-    deleteUser(authentication, id);
+    return deleteUser(authentication, id);
   },
-  setUser: (authentication, user) => {
-    addUser(authentication, user);
+  setUser: (authentication, userId) => {
+    demoteAdmin(authentication, userId);
   },
-  setAdmin: (authentication, user) => {
-    addAdmin(authentication, user);
+  setAdmin: (authentication, userId) => {
+    promoteAdmin(authentication, userId);
   },
   logout: () => {
     set((state) => ({ ...state, user: undefined }));

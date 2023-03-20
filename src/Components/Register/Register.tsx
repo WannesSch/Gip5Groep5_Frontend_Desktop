@@ -1,13 +1,16 @@
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useProfile } from "../../Hooks/useProfile";
 import { InputValues } from "../../Models/InputValues";
-import { User } from "../../Models/User";
-import { StyledAuthBox,  StyledButton,  StyledTextField } from "../Shared/Shared.styled";
 
+import {
+  StyledAuthBox,
+  StyledButton,
+  StyledTextField,
+} from "../Shared/Shared.styled";
 
 const validationSchema = yup.object({
   firstName: yup.string().min(2, "name must be 2 or more characters long"),
@@ -28,6 +31,7 @@ const validationSchema = yup.object({
 
 function RegisterComponent() {
   const { registerUser } = useProfile();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -38,9 +42,11 @@ function RegisterComponent() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values: InputValues) => {
-      console.log(values);
+    onSubmit: async (values: InputValues) => {
       registerUser(values);
+      await registerUser(values).then((res) => {
+        res === 201 ? navigate("/") : console.error("No account found");
+      });
     },
   });
 

@@ -1,12 +1,15 @@
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useProfile } from "../../Hooks/useProfile";
 import { InputValues } from "../../Models/InputValues";
-import { StyledAuthBox, StyledButton, StyledTextField } from "../Shared/Shared.styled";
-
+import {
+  StyledAuthBox,
+  StyledButton,
+  StyledTextField,
+} from "../Shared/Shared.styled";
 
 const validationSchema = yup.object({
   email: yup
@@ -21,6 +24,7 @@ const validationSchema = yup.object({
 
 function LoginComponent() {
   const { fetchUser } = useProfile();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -28,8 +32,11 @@ function LoginComponent() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values: InputValues) => {
-      fetchUser(values);
+    onSubmit: async (values: InputValues) => {
+      await fetchUser(values).then((res) => {
+        console.log(res);
+        res === 200 ? navigate("/") : console.error("No account found");
+      });
     },
   });
 

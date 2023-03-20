@@ -1,5 +1,5 @@
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
-import { IconButton, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useProfile } from "../../../Hooks/useProfile";
@@ -48,13 +48,13 @@ function NavBarComponent() {
         </Link>
         {pages.map((page) =>
           authentication && page.roles?.includes(authentication.roles) ? (
-            <Link to={page.link}>
+            <Link to={page.link} key={page.name}>
               <StyledNavbarButton key={page.name}>
                 {page.name}
               </StyledNavbarButton>
             </Link>
           ) : (
-            <></>
+            <Box key={page.name}></Box>
           )
         )}
       </StyledNavbarBox>

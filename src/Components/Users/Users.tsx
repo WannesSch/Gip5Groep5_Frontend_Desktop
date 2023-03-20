@@ -21,10 +21,9 @@ function UsersComponent() {
 
   useEffect(() => {
     if (!authentication) return;
-    fetchAllUsers(authentication).then((res) => {
-      setUsers(res);
-    });
-  }, [authentication, fetchAllUsers]);
+    updateUsers();
+    //eslint-disable-next-line
+  }, [users, authentication]);
 
   if (!authentication)
     return (
@@ -34,14 +33,22 @@ function UsersComponent() {
       />
     );
 
-  const SetUser = (user: User) => {
-    setUser(authentication, user);
+  const SetUser = (userId: number) => {
+    setUser(authentication, userId);
   };
-  const SetAdmin = (user: User) => {
-    setAdmin(authentication, user);
+  const SetAdmin = async (userId: number) => {
+    await setAdmin(authentication, userId);
+    updateUsers();
   };
-  const RemoveUser = (id: number) => {
-    removeUser(authentication, id);
+  const RemoveUser = async (id: number) => {
+    await removeUser(authentication, id);
+    updateUsers();
+  };
+
+  const updateUsers = () => {
+    fetchAllUsers(authentication).then((res) => {
+      setUsers(res);
+    });
   };
 
   return (
@@ -61,24 +68,30 @@ function UsersComponent() {
             <StyledUserInfoText>{user.birthdate}</StyledUserInfoText>
             <StyledUserInfoText>{user.roles}</StyledUserInfoText>
           </StyledUserInfo>
-          <StyledUserButton
-            $gridArea="12 / 6 / 15 / 9"
-            onClick={() => SetUser(user)}
-          >
-            <StyledFontAwesomeIcon icon={faUser} />
-          </StyledUserButton>
-          <StyledUserButton
-            $gridArea="12 / 9 / 15 / 12"
-            onClick={() => SetAdmin(user)}
-          >
-            <StyledFontAwesomeIcon icon={faHammer} $color={"#a14225"} />
-          </StyledUserButton>
-          <StyledUserButton
-            $gridArea="12 / 12 / 15 / 15"
-            onClick={() => RemoveUser(user.id!)}
-          >
-            <StyledFontAwesomeIcon icon={faTrash} $color={"#a12525"} />
-          </StyledUserButton>
+          {user.id === authentication.id ? (
+            <></>
+          ) : (
+            <>
+              <StyledUserButton
+                $gridArea="12 / 6 / 15 / 9"
+                onClick={() => SetUser(user.id!)}
+              >
+                <StyledFontAwesomeIcon icon={faUser} />
+              </StyledUserButton>
+              <StyledUserButton
+                $gridArea="12 / 9 / 15 / 12"
+                onClick={() => SetAdmin(user.id!)}
+              >
+                <StyledFontAwesomeIcon icon={faHammer} $color={"#a14225"} />
+              </StyledUserButton>
+              <StyledUserButton
+                $gridArea="12 / 12 / 15 / 15"
+                onClick={() => RemoveUser(user.id!)}
+              >
+                <StyledFontAwesomeIcon icon={faTrash} $color={"#a12525"} />
+              </StyledUserButton>
+            </>
+          )}
         </StyledUserBox>
       ))}
     </StyledUsersWrapper>

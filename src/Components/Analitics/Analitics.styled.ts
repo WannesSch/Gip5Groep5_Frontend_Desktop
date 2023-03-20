@@ -33,7 +33,6 @@ export const StyledChartWrapper = styled(Box)({
   display: "flex",
   alignItems: "center",
   flexDirection: "column",
-  justifyContent: "center",
 });
 
 export const StyledDoughnut = styled(Doughnut)({
@@ -43,7 +42,7 @@ export const StyledDoughnut = styled(Doughnut)({
 });
 
 export const StyledDataText = styled(Typography)({
-  fontSize: "1.5rem",
+  fontSize: "1.2rem",
   color: "#022B3A",
-  marginBlock: "5vh",
+  marginBlock: "2vh",
 });
