@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { styled, Typography } from "@mui/material";
+import { Button, styled, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
 
@@ -80,4 +80,19 @@ export const StyledOverlayBox = styled(Box)({
   flexDirection: "column",
   background: "#F1F1F1",
   padding: "3rem",
+});
+
+export const StyledTextField = styled(TextField)({
+
+    marginBottom: "20px"
+
+});
+
+
+export const StyledButton = styled(Button)({
+
+    marginTop: "20px",
+    marginBottom: "5px",
+    marginLeft: "70px"
+
 });

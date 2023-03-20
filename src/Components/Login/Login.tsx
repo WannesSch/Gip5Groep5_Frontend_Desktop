@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useProfile } from "../../Hooks/useProfile";
 import { InputValues } from "../../Models/InputValues";
-import { StyledAuthBox } from "../Shared/Shared.styled";
+import { StyledAuthBox, StyledButton, StyledTextField } from "../Shared/Shared.styled";
+
 
 const validationSchema = yup.object({
   email: yup
@@ -36,7 +37,7 @@ function LoginComponent() {
     <>
       <StyledAuthBox>
         <form onSubmit={formik.handleSubmit}>
-          <TextField
+          <StyledTextField
             fullWidth
             id="email"
             name="email"
@@ -46,7 +47,7 @@ function LoginComponent() {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-          <TextField
+          <StyledTextField
             fullWidth
             id="password"
             name="password"
@@ -62,7 +63,7 @@ function LoginComponent() {
           </Button>
         </form>
         <Link to={"/register"}>
-          <Button>No account? Register here!</Button>
+          <StyledButton>No account? Register here!</StyledButton>
         </Link>
       </StyledAuthBox>
     </>

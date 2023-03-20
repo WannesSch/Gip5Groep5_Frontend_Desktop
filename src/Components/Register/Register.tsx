@@ -6,7 +6,8 @@ import * as yup from "yup";
 import { useProfile } from "../../Hooks/useProfile";
 import { InputValues } from "../../Models/InputValues";
 import { User } from "../../Models/User";
-import { StyledAuthBox } from "../Shared/Shared.styled";
+import { StyledAuthBox,  StyledButton,  StyledTextField } from "../Shared/Shared.styled";
+
 
 const validationSchema = yup.object({
   firstName: yup.string().min(2, "name must be 2 or more characters long"),
@@ -47,7 +48,7 @@ function RegisterComponent() {
     <>
       <StyledAuthBox>
         <form onSubmit={formik.handleSubmit}>
-          <TextField
+          <StyledTextField
             fullWidth
             id="firstname"
             name="firstname"
@@ -57,7 +58,7 @@ function RegisterComponent() {
             error={formik.touched.firstname && Boolean(formik.errors.firstname)}
             helperText={formik.touched.firstname && formik.errors.firstname}
           />
-          <TextField
+          <StyledTextField
             fullWidth
             id="lastname"
             name="lastname"
@@ -67,7 +68,7 @@ function RegisterComponent() {
             error={formik.touched.lastname && Boolean(formik.errors.lastname)}
             helperText={formik.touched.lastname && formik.errors.lastname}
           />
-          <TextField
+          <StyledTextField
             fullWidth
             id="email"
             name="email"
@@ -77,7 +78,7 @@ function RegisterComponent() {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-          <TextField
+          <StyledTextField
             fullWidth
             id="birthdate"
             name="birthdate"
@@ -87,7 +88,7 @@ function RegisterComponent() {
             error={formik.touched.birthdate && Boolean(formik.errors.birthdate)}
             helperText={formik.touched.birthdate && formik.errors.birthdate}
           />
-          <TextField
+          <StyledTextField
             fullWidth
             id="password"
             name="password"
@@ -103,7 +104,7 @@ function RegisterComponent() {
           </Button>
         </form>
         <Link to={"/login"}>
-          <Button>Already have an account? Login here!</Button>
+          <StyledButton>Already have an account? Login here!</StyledButton>
         </Link>
       </StyledAuthBox>
     </>
