@@ -40,7 +40,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (19,'00/00/0000','TestAccount.Admin@mail.com','TestAccount','Admin','$2a$10$4DAX6LMNnHeZO6cZgUPkbOCfMo7WUTLbh0BW.b5FN0FAqae2Y/Fgu','ADMIN'),(21,'00/00/0000','TestAccount.User@mail.com','TestAccount','User','$2a$10$Al2hC9oCiAWfCcntpxL/3e3utTRuTTg0OA3w5nIIRoTQDlxWi4joK','USER'),(22,'00/00/0000','TestAccount.User@mail.com','TestAccount','User','$2a$10$lexfPeCNokaRu69nfOtE4eQEe3p.s7FBbmopd1e5a5q1T.CpX3JNC','USER');
+INSERT INTO `user` VALUES (19,'00/00/0000','TestAccount.Admin@mail.com','TestAccount','Admin','$2a$10$4DAX6LMNnHeZO6cZgUPkbOCfMo7WUTLbh0BW.b5FN0FAqae2Y/Fgu','ADMIN'),(21,'00/00/0000','TestAccount.User@mail.com','TestAccount','User','$2a$10$Al2hC9oCiAWfCcntpxL/3e3utTRuTTg0OA3w5nIIRoTQDlxWi4joK','USER');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-20 23:55:30
+-- Dump completed on 2023-03-20 23:58:35
