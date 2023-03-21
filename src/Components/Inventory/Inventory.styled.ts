@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { auto } from "@popperjs/core";
 
@@ -43,4 +43,16 @@ export const StyledPercentageText = styled(Typography)({
   fontWeight: "bold",
   fontFamily: "sans-serif",
   color: "#424242",
+});
+
+export const StyledAddMenue = styled(TextField)({
+
+  marginTop: "10px",
+  
+});
+
+export const StyledAddMenueButton = styled(Button)({
+
+  marginTop: "10px",
+  backgroundColor: "gray"
 });
