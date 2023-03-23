@@ -1,6 +1,6 @@
 import { faHammer, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useProfile } from "../../Hooks/useProfile";
 import { User } from "../../Models/User";
 import ErrorComponent from "../Error/Error";
@@ -19,11 +19,17 @@ function UsersComponent() {
     useProfile();
   const [users, setUsers] = useState<User[]>();
 
-  useEffect(() => {
+  const updateUsers = () => {
+    fetchAllUsers(authentication!).then((res) => {
+      setUsers(res);
+    });
+  };
+
+  useMemo(() => {
     if (!authentication) return;
     updateUsers();
     //eslint-disable-next-line
-  }, [users, authentication]);
+  }, []);
 
   if (!authentication)
     return (
@@ -43,12 +49,6 @@ function UsersComponent() {
   const RemoveUser = async (id: number) => {
     await removeUser(authentication, id);
     updateUsers();
-  };
-
-  const updateUsers = () => {
-    fetchAllUsers(authentication).then((res) => {
-      setUsers(res);
-    });
   };
 
   return (
