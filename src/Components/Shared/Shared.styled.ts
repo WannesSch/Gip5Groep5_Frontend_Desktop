@@ -84,7 +84,12 @@ export const StyledOverlayBox = styled(Box)({
 
 export const StyledTextField = styled(TextField)({
 
-    marginBottom: "20px"
+    marginBottom: "7px",
+    marginTop: "10px",
+    width: "390px",
+    marginLeft: "20px"
+   
+    
 
 });
 
@@ -94,5 +99,7 @@ export const StyledButton = styled(Button)({
     marginTop: "20px",
     marginBottom: "5px",
     marginLeft: "70px"
+    
 
 });
+
